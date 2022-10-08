@@ -107,7 +107,7 @@ const routes: Routes = [
   },
   // PANEL Routes
 
-  { path: '**', component: P404Component },
+  { path: '**', component: InitialComponent },
 ];
 
 @NgModule({
