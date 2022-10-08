@@ -1,0 +1,365 @@
+<!-- <div id="p_prldr" style="display: none">
+  <div class="contpre">
+    <span class="svg_anm" id="svg_anm" style="display: none"></span>
+  </div>
+</div> -->
+
+<app-header></app-header>
+
+<div
+  [class.show]="showResult"
+  class="modal-bg click-modal-toggle"
+  data-toggle="close"
+></div>
+<div [class.show]="showResult" class="toggle-modal">
+  <div class="toggle-modal-header">
+    <h4 class="toggle-modal-title"></h4>
+    <div
+      (click)="this.showResult = false"
+      class="click-modal-toggle toggle-doing"
+      data-toggle="close"
+    >
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M9.40156 7.99961L15.1016 2.29961C15.5016 1.89961 15.5016 1.29961 15.1016 0.899609C14.7016 0.499609 14.1016 0.499609 13.7016 0.899609L8.00156 6.59961L2.30156 0.899609C1.90156 0.499609 1.30156 0.499609 0.901563 0.899609C0.501563 1.29961 0.501563 1.89961 0.901563 2.29961L6.60156 7.99961L0.901563 13.6996C0.501563 14.0996 0.501563 14.6996 0.901563 15.0996C1.10156 15.2996 1.40156 15.3996 1.60156 15.3996C1.80156 15.3996 2.10156 15.2996 2.30156 15.0996L8.00156 9.39961L13.7016 15.0996C13.9016 15.2996 14.2016 15.3996 14.4016 15.3996C14.6016 15.3996 14.9016 15.2996 15.1016 15.0996C15.5016 14.6996 15.5016 14.0996 15.1016 13.6996L9.40156 7.99961Z"
+          fill="#A7A7A7"
+        ></path>
+      </svg>
+    </div>
+  </div>
+  <div class="toggle-modal-body kb-body-modal">
+    <div class="calculator-slider">
+      <h1>Envie su solicitud</h1>
+
+      <div class="kbinfo">
+        <p>
+          Por favor contactenos para solicitar utilizando la siguiente
+          informacion.
+        </p>
+      </div>
+
+      <div class="kbps">
+        <p class="title">Monto: {{ currentAmount }}</p>
+        <p class="title">Meses: {{ options.months.value }}</p>
+        <p class="title">Total a pagar: {{ total }}</p>
+        <p class="title">Finaliza el: {{ date }}</p>
+      </div>
+
+      <h2>Contacto</h2>
+
+      <div class="kbps">
+        <p>{{ email }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-width-100">
+  <div class="container-page">
+    <ul
+      class="desktop-second-menu container-page only-desk"
+      id="desktop-second-menu"
+    >
+      <li>
+        <a [routerLink]="['/servicios/about']" class="desktop-second-menu_point"
+          >Sobre la compañía</a
+        >
+      </li>
+      <li>
+        <a
+          [routerLink]="['/servicios/contact']"
+          class="desktop-second-menu_point"
+          >Contactos</a
+        >
+      </li>
+      <li>
+        <a
+          href="javascript:void(0)"
+          (click)="showRequirements()"
+          class="desktop-second-menu_point"
+          >Requisitos</a
+        >
+      </li>
+      <li>
+        <a [routerLink]="['/servicios/faq']" class="desktop-second-menu_point"
+          >Preguntas frecuentes</a
+        >
+      </li>
+    </ul>
+  </div>
+
+  <div class="block-1 container-page" id="block-1">
+    <!-- <div class="bg-man"></div>
+
+    <div class="bg-man-body"></div> -->
+
+    <div class="calculator-slider">
+      <h2>Ahorramos su tiempo</h2>
+      <p class="title">Préstamos personales en línea</p>
+
+      <div class="description-service">
+        <div class="description-service-box">
+          <img src="/assets/images/app.svg" alt="" />
+          <p>Solicitud 100% en línea</p>
+        </div>
+        <div class="description-service-box">
+          <img src="/assets/images/calendar.png" alt="" />
+          <p>Plazo del préstamo hasta 1 año</p>
+          <div #calculatorM></div>
+        </div>
+        <div class="description-service-box">
+          <img src="/assets/images/image18-green.png" alt="" />
+          <p>La oferta está disponible solo para mayores de edad</p>
+        </div>
+        <div #calculatorD></div>
+      </div>
+
+      <div class="calculator">
+        <div class="calculator__sum">
+          <div class="calculator__sum__text-top">
+            <p class="body_m-bold">¿Cuánto dinero necesitas?</p>
+            <!-- <p class="body_l-bold" id="calculator__sum">
+              $ <span>{{ options.amount.value }}</span>
+            </p> -->
+          </div>
+
+          <ngx-slider
+            [(value)]="options.amount.value"
+            [options]="options.amount"
+            (mouseup)="amountSliderEvent()"
+          >
+          </ngx-slider>
+        </div>
+
+        <div class="calculator__sum">
+          <div class="calculator__sum__text-top">
+            <p class="body_m-bold">Elija un término</p>
+            <p class="body_l-bold" id="calculator__day">
+              <span>{{ options.months.value }}</span> meses
+            </p>
+          </div>
+
+          <ngx-slider
+            [(value)]="options.months.value"
+            [options]="options.months"
+            (mouseup)="monthSliderEvent()"
+          >
+          </ngx-slider>
+        </div>
+
+        <div class="calculator__info text-center">
+          <div class="preloader-box" style="display: none">
+            <div class="preloader-flex">
+              <img src="/assets/images/ball-triangle.svg" alt="" />
+            </div>
+          </div>
+          <button href="#" class="button-amount body_xl-bold">
+            <span id="TotalToPay">{{ this.total }}</span>
+          </button>
+
+          <p class="body_m-bold">
+            <span id="PaymentDt">Finaliza el {{ date }}</span>
+          </p>
+
+          <div class="calculator__button body_m-extrabold">
+            <div (click)="getCredit()" class="green-button">
+              <img src="/assets/images/dollar.svg" alt="image" />Obtener un
+              crédito
+            </div>
+            <div #requirements></div>
+          </div>
+        </div>
+      </div>
+      <div class="error-message" id="calc-error">
+        <p></p>
+      </div>
+      <div class="breakpoint-1" id="block-3"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container-width-100">
+  <div class="block-2">
+    <div class="container-page">
+      <div class="block-2-main-container">
+        <h2 class="title-block color-white">¿Como funciona?</h2>
+        <div class="block-2-description">
+          <div class="column-information">
+            <img src="/assets/images/01.svg" />
+            <div>
+              <p class="title-column">Solicitud</p>
+
+              <p class="description-column">
+                Sólo necesitas tu teléfono, tu identificación y un estado de
+                cuenta, ningún otro documento
+              </p>
+            </div>
+          </div>
+          <div class="column-information">
+            <img src="/assets/images/02.svg" />
+            <div>
+              <p class="title-column">Decisión en un minuto</p>
+              <p class="description-column">
+                Recibirá un mensaje con la decisión de crédito sobre su
+                solicitud al número de teléfono indicado
+              </p>
+            </div>
+          </div>
+          <div class="column-information">
+            <img src="/assets/images/03.svg" />
+            <div>
+              <p class="title-column">Reciba dinero en línea</p>
+              <p class="description-column">
+                El importe aprobado se transferirá a su cuenta bancaria
+              </p>
+            </div>
+          </div>
+        </div>
+        <!--                <picture>-->
+        <!--                    <source srcset="/assets/images/girl_picture.webp" type="image/webp">-->
+        <!--                    <source srcset="/assets/images/girl_picture.png" type="image/png">-->
+        <!--                </picture>-->
+        <img
+          alt=""
+          class="abs-posotion-img"
+          src="/assets/images/girl_picture.png"
+        />
+
+        <div class="orange-button-event abs-position-button only-mobile">
+          Start
+        </div>
+      </div>
+      <div class="breakpoint-1" id="block-32"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container-width-100">
+  <div class="block-3">
+    <div class="container-page">
+      <!-- <div class="modal-bg click-modal-toggle show" data-toggle="close"></div>
+
+      <div class="toggle-modal show">
+        <div class="toggle-modal-header">
+          <h4 class="toggle-modal-title"></h4>
+          <div class="click-modal-toggle toggle-doing" data-toggle="close">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9.40156 7.99961L15.1016 2.29961C15.5016 1.89961 15.5016 1.29961 15.1016 0.899609C14.7016 0.499609 14.1016 0.499609 13.7016 0.899609L8.00156 6.59961L2.30156 0.899609C1.90156 0.499609 1.30156 0.499609 0.901563 0.899609C0.501563 1.29961 0.501563 1.89961 0.901563 2.29961L6.60156 7.99961L0.901563 13.6996C0.501563 14.0996 0.501563 14.6996 0.901563 15.0996C1.10156 15.2996 1.40156 15.3996 1.60156 15.3996C1.80156 15.3996 2.10156 15.2996 2.30156 15.0996L8.00156 9.39961L13.7016 15.0996C13.9016 15.2996 14.2016 15.3996 14.4016 15.3996C14.6016 15.3996 14.9016 15.2996 15.1016 15.0996C15.5016 14.6996 15.5016 14.0996 15.1016 13.6996L9.40156 7.99961Z"
+                fill="#A7A7A7"
+              ></path>
+            </svg>
+          </div>
+        </div>
+        <div class="toggle-modal-body"></div>
+      </div> -->
+      <div class="block-3-main-container">
+        <div class="how-does-it-work">
+          <h2 class="title-block">¿Como usarlo?</h2>
+          <div class="switch-menu">
+            <div
+              *ngIf="ifGetBtn"
+              class="point-menu-active"
+              data-active="left"
+            ></div>
+            <div
+              *ngIf="!ifGetBtn"
+              class="point-menu-active"
+              data-active="middle"
+            ></div>
+
+            <div
+              [class.active]="ifGetBtn"
+              class="point-menu"
+              data-position="left"
+              data-name="point-menu"
+              (click)="switchGetOrPayBtn(true)"
+            >
+              Obtener
+            </div>
+            <div
+              [class.active]="!ifGetBtn"
+              class="point-menu"
+              data-position="middle"
+              data-name="point-menu"
+              (click)="switchGetOrPayBtn(false)"
+            >
+              Pagar
+            </div>
+          </div>
+          <div class="description-choose">
+            <div [class.active]="ifGetBtn" class="point-menu-text" id="left">
+              <p>
+                Transferencia interbancaria<span> instantánea</span> a su cuenta
+                bancaria!
+              </p>
+            </div>
+            <div [class.active]="!ifGetBtn" class="point-menu-text" id="middle">
+              <p>
+                Puedes pagar el crédito pendiente tanto en línea como en
+                efectivo.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="description-choose-img point-menu-img" data-img="left">
+          <img alt="" src="/assets/images/how-to-use-middle.webp" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-width-100">
+  <div class="block-4" id="block-4">
+    <div class="container-page">
+      <div class="block-4-main-container">
+        <h2 class="title-block color-white">¿Por qué elegirnos?</h2>
+        <div class="block-4-description">
+          <div class="columns-flex">
+            <img class="img-point" src="/assets/images/check_picture.svg" />
+            <p>Solicitud de préstamo 100% online</p>
+          </div>
+          <div class="columns-flex">
+            <img class="img-point" src="/assets/images/check_picture.svg" />
+            <p>Aprobación rápida</p>
+          </div>
+          <div class="columns-flex">
+            <img class="img-point" src="/assets/images/check_picture.svg" />
+            <p>Sin garantías y papeleo</p>
+          </div>
+          <div class="columns-flex">
+            <img class="img-point" src="/assets/images/check_picture.svg" />
+            <p>Sin comisiones ocultas</p>
+          </div>
+        </div>
+      </div>
+      <picture>
+        <source srcset="/assets/images/bl-3-man.webp" type="image/webp" />
+        <source srcset="/assets/images/bl-3-man.png" type="image/png" />
+        <img
+          class="abs-posotion-img"
+          alt=""
+          src="/assets/images/bl-3-man.png"
+        />
+      </picture>
+    </div>
+  </div>
+</div>
+
+<br />
+<br />
+
+<app-footer></app-footer>

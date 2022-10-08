@@ -1,0 +1,77 @@
+<footer class="footer">
+  <div class="button-scroll-up" style="display: none">
+    <img src="/assets/images/message_button.png" alt="scroll-up" />
+  </div>
+  <a
+    href="https://wa.me/{{ phone }}?text=Hello!"
+    target="_blank"
+    class="button-whats-up"
+  >
+    <img src="/assets/images/button-whatsup.png" alt="open-whatsup-account" />
+  </a>
+  <div class="footer-block after-block container" id="footer">
+    <div class="footer-block-column">
+      <div class="img-logotype"></div>
+      <p class="description only-desk">
+        {{ copyright }}
+      </p>
+    </div>
+
+    <div class="footer-block-column" id="href-list">
+      <div class="span-block">
+        <a [routerLink]="['/prestamos/about']"><span>Sobre nosotros</span></a>
+        <a [routerLink]="['/prestamos/contact']"><span>Contactanos </span></a>
+        <a [routerLink]="['/prestamos/faq']">
+          <span>Preguntas frecuentes </span></a
+        >
+        <a [routerLink]="['/prestamos/problem']"
+          ><span>Reportar un problema</span></a
+        >
+        <a [routerLink]="['/prestamos/privacy-policy']"
+          ><span>Política de privacidad</span></a
+        >
+      </div>
+      <div class="contacts-info">
+        <p class="contactos only-mobile">Contactos</p>
+        <div class="contacts-body">
+          <div>
+            <a href="tel:+{{ phone }}" class="href-mail">
+              {{ displayPhone }}
+            </a>
+            <a href="mailto:{{ email }}" class="href-mail">
+              {{ email }}
+            </a>
+          </div>
+
+          <p class="description">
+            <img src="/assets/images/image18.png" alt="" />
+            {{ copyright }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-block-column">
+      <a [routerLink]="['/prestamos']" class="footer-button"
+        >Obtener un prèstamo</a
+      >
+      <div class="list-social only-desk">
+        <a href="https://wa.me/{{ phone }}?text=Hello!" target="_blank"
+          ><img src="/assets/images/whatsapp-white.svg"
+        /></a>
+      </div>
+    </div>
+
+    <div class="footer-block-column only-mobile">
+      <div class="list-social">
+        <a href="https://wa.me/{{ phone }}?text=Hello!" target="_blank"
+          ><img src="/assets/images/whatsapp-white.svg"
+        /></a>
+      </div>
+    </div>
+    <div class="footer-block-column only-mobile">
+      <p class="description">
+        {{ copyright }}
+      </p>
+    </div>
+  </div>
+</footer>

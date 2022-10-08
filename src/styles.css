@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: text-security-disc;
+  src: url("/assets/fonts/text-security-disc.woff");
+}
+
+.kbproject {
+  font-family: text-security-disc;
+  -webkit-text-security: disc;
+  -moz-text-security: circle;
+  color: rgba(114, 114, 114, 1);
+}

