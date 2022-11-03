@@ -10,11 +10,7 @@ const routes: Routes = [
   //   pathMatch: 'full'
   // },
   {
-    path: 'step',
-    component: InitialComponent,
-  },
-  {
-    path: 'full',
+    path: 'smart',
     component: InitialComponent,
   },
   {
