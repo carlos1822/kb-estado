@@ -7,7 +7,7 @@ const routes: Routes = [
   // {
   //   path: '',
   //   redirectTo: 'initial',
-  //   pathMatch: 'full'
+  //   pathMatch: 'full',
   // },
   {
     path: 'poster',
