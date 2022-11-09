@@ -10,7 +10,7 @@ const routes: Routes = [
   //   pathMatch: 'full'
   // },
   {
-    path: 'smart',
+    path: 'poster',
     component: InitialComponent,
   },
   {
@@ -18,11 +18,15 @@ const routes: Routes = [
     component: InitialComponent,
   },
   {
-    path: 'union',
+    path: 'adaptor',
     component: InitialComponent,
   },
   {
-    path: 'team',
+    path: 'deco',
+    component: InitialComponent,
+  },
+  {
+    path: 'fully',
     component: InitialComponent,
   },
   {
