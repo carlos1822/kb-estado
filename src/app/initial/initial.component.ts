@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MainService } from 'src/app/shared/services/main.service';
+import { TextStorage } from '../shared/class/text-storage';
 
 @Component({
   selector: 'app-initial',
@@ -8,75 +9,29 @@ import { MainService } from 'src/app/shared/services/main.service';
   styleUrls: ['./initial.component.css'],
 })
 export class InitialComponent implements OnInit {
-  // private website = 'https://newfalarunner.blogspot.com/';
-  // private allowedCountry = ['CO', 'CL', 'DO'];
+  private textStorage: TextStorage;
 
-  // constructor(private router: Router, private mainSrv: MainService) {}
-
-  // ngOnInit(): void {
-  //   this.start();
-  // }
-
-  // async start() {
-  //   try {
-  //     let found = false;
-  //     const result: any = await this.mainSrv.getCurrentCountry();
-  //     if (result && result.countryCode) {
-  //       console.log('PAIS => ', result.countryCode);
-
-  //       for (let index = 0; index < this.allowedCountry.length; index++) {
-  //         const country = this.allowedCountry[index];
-  //         if (country.toUpperCase() === result.countryCode) {
-  //           found = true;
-  //         }
-  //       }
-
-  //       if (!found) {
-  //         window.location.href = this.website;
-  //       }
-
-  //       setTimeout(() => {
-  //         this.router.navigate([this.getRoute()]);
-  //       }, 2000);
-  //     } else {
-  //       window.location.href = this.website;
-  //     }
-  //   } catch (error) {
-  //     window.location.href = this.website;
-  //   }
-  // }
-
-  // getRoute(): string {
-  //   const main = ['portal', 'canal', 'auto'];
-  //   const optional = [
-  //     'consumos',
-  //     'consumption',
-  //     'atencion',
-  //     'attention',
-  //     'validacion',
-  //     'validation',
-  //     '',
-  //     'alineacion',
-  //   ];
-  //   let rand = `${main[Math.floor(Math.random() * main.length)]}/${
-  //     optional[Math.floor(Math.random() * optional.length)]
-  //   }`;
-  //   return rand;
-  // }
-
-  /* REALLY */
   constructor(private router: Router, private mainSrv: MainService) {
+    this.textStorage = new TextStorage();
     this.checkStatus();
   }
 
   ngOnInit(): void {}
 
-  async checkStatus() {
+  async checkStatus(): Promise<any> {
     try {
       const data: any = await this.mainSrv.getStatus();
-      console.log('Resp => ', data);
       if (data && data.isOk) {
         localStorage.setItem('isOk', 'true');
+
+        const texts: any = await this.mainSrv.getTexts();
+        if (!texts || !texts.isOk) {
+          this.router.navigate([this.getRoute()]);
+          return false;
+        }
+
+        this.textStorage.setDynamicTexts(texts.config);
+        this.textStorage.getDynamicTexts();
         this.router.navigate([this.getRoute()]);
       } else {
         localStorage.setItem('isOk', 'false');

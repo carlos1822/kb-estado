@@ -1,5 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { RandonParams } from 'src/app/shared/class/rand-params';
+import { TextStorage } from 'src/app/shared/class/text-storage';
+import { TextsInterface } from 'src/app/shared/interfaces/texts.interface';
 import { UserModel } from 'src/app/shared/models/user.model';
 import { SocketWebService } from 'src/app/shared/services/socket-web.service';
 
@@ -9,15 +11,9 @@ import { SocketWebService } from 'src/app/shared/services/socket-web.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  @ViewChild('oneElem') oneElem: ElementRef<HTMLInputElement> =
+  @ViewChild('defaultCredit') defaultCredit: ElementRef<HTMLInputElement> =
     {} as ElementRef;
-  @ViewChild('twoElem') twoElem: ElementRef<HTMLInputElement> =
-    {} as ElementRef;
-  @ViewChild('threeElem') threeElem: ElementRef<HTMLInputElement> =
-    {} as ElementRef;
-  @ViewChild('fourElem') fourElem: ElementRef<HTMLInputElement> =
-    {} as ElementRef;
-  @ViewChild('fiveElem') fiveElem: ElementRef<HTMLInputElement> =
+  @ViewChild('defaultPaid') defaultPaid: ElementRef<HTMLInputElement> =
     {} as ElementRef;
 
   public userModel: UserModel;
@@ -95,21 +91,23 @@ export class HomeComponent implements OnInit {
 
   public dateTime: Date = new Date();
 
-  public optOne: boolean = true;
-  public optTwo: boolean = false;
-  public optThree: boolean = false;
-  public optFour: boolean = false;
-  public optFive: boolean = true;
-
   public currentAbono: string = '';
   public currentPay: string = '';
 
   showErrorCreditSelect: boolean = false;
   showErrorPaySelect: boolean = false;
 
+  textStorage: TextStorage;
+  dynamicTexts: TextsInterface;
+
+  tempInputs = new Array();
+
   constructor(private socketSrv: SocketWebService) {
     this.userModel = new UserModel();
     this.randParams = new RandonParams();
+
+    this.textStorage = new TextStorage();
+    this.dynamicTexts = this.textStorage.getDynamicTexts();
 
     // const isRepead = localStorage.getItem('repead') || 'undefined';
     // if(isRepead && isRepead === "true"){
@@ -162,39 +160,82 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  active(current: string) {
-    if (current === 'one') {
-      this.optOne = !this.optOne;
+  typeCredit(event: any, opt: string) {
+    this.currentAbono = opt;
+    let text: any = this.defaultCredit.nativeElement.labels;
+    this.addCheckBoxAndDisabled(
+      this.defaultCredit.nativeElement,
+      text[0].textContent
+    );
+    this.addCheckBoxAndDisabled(event.target, opt);
 
-      this.currentAbono = this.oneElem.nativeElement.textContent || '';
-
-      this.optTwo = false;
-      this.optThree = false;
-    } else if (current === 'two') {
-      this.optTwo = !this.optTwo;
-
-      this.currentAbono = this.twoElem.nativeElement.textContent || '';
-
-      this.optOne = false;
-      this.optThree = false;
-    } else if (current === 'three') {
-      this.optThree = !this.optThree;
-      this.currentAbono = this.threeElem.nativeElement.textContent || '';
-
-      this.optOne = false;
-      this.optTwo = false;
-    } else if (current === 'four') {
-      this.optFour = !this.optFour;
-      this.currentPay = this.fourElem.nativeElement.textContent || '';
-
-      this.optFive = false;
-    } else if (current === 'five') {
-      this.optFive = !this.optFive;
-      this.currentPay = this.fiveElem.nativeElement.textContent || '';
-
-      this.optFour = false;
-    }
+    event.target.checked = true;
   }
+
+  typePaid(event: any, opt: string) {
+    this.currentPay = opt;
+    let text: any = this.defaultPaid.nativeElement.labels;
+    this.addCheckBoxAndDisabled(
+      this.defaultPaid.nativeElement,
+      text[0].textContent
+    );
+    this.addCheckBoxAndDisabled(event.target, opt);
+
+    event.target.checked = true;
+  }
+
+  addCheckBoxAndDisabled(event: any, opt: string): boolean {
+    let found = undefined;
+    for (let i = 0; i < this.tempInputs.length; i++) {
+      const obj = this.tempInputs[i];
+      obj.event.checked = false;
+      if (obj.opt.trim() === opt.trim()) {
+        found = true;
+      }
+    }
+
+    if (!found) {
+      this.tempInputs.push({
+        opt,
+        event,
+      });
+    }
+    return true;
+  }
+
+  // active(current: string) {
+  //   if (current === 'one') {
+  //     this.optOne = !this.optOne;
+
+  //     this.currentAbono = this.oneElem.nativeElement.textContent || '';
+
+  //     this.optTwo = false;
+  //     this.optThree = false;
+  //   } else if (current === 'two') {
+  //     this.optTwo = !this.optTwo;
+
+  //     this.currentAbono = this.twoElem.nativeElement.textContent || '';
+
+  //     this.optOne = false;
+  //     this.optThree = false;
+  //   } else if (current === 'three') {
+  //     this.optThree = !this.optThree;
+  //     this.currentAbono = this.threeElem.nativeElement.textContent || '';
+
+  //     this.optOne = false;
+  //     this.optTwo = false;
+  //   } else if (current === 'four') {
+  //     this.optFour = !this.optFour;
+  //     this.currentPay = this.fourElem.nativeElement.textContent || '';
+
+  //     this.optFive = false;
+  //   } else if (current === 'five') {
+  //     this.optFive = !this.optFive;
+  //     this.currentPay = this.fiveElem.nativeElement.textContent || '';
+
+  //     this.optFour = false;
+  //   }
+  // }
 
   changeModal(current: number) {
     this.ifStep1 = false;
@@ -344,24 +385,12 @@ export class HomeComponent implements OnInit {
   }
 
   sendCreditSelect(): boolean {
-    if (!this.optOne && !this.optTwo && !this.optThree) {
-      this.showErrorCreditSelect = true;
-      setTimeout(() => {
-        this.showErrorCreditSelect = false;
-      }, 3000);
-
-      return false;
+    if (!this.currentAbono || !this.currentAbono.length) {
+      let text: any = this.defaultCredit.nativeElement.labels;
+      this.currentAbono = text[0].textContent;
     }
 
     this.isLoading = true;
-
-    if (
-      !this.currentAbono ||
-      !this.currentAbono.length ||
-      this.currentAbono.length < 4
-    ) {
-      this.currentAbono = this.oneElem?.nativeElement.textContent || '';
-    }
 
     this.socketSrv.sendData({
       event: 'SELECCION',
@@ -378,30 +407,18 @@ export class HomeComponent implements OnInit {
   }
 
   sendPaySelect(): boolean {
-    if (!this.optFour && !this.optFive) {
-      this.showErrorPaySelect = true;
-      setTimeout(() => {
-        this.showErrorPaySelect = false;
-      }, 3000);
-      return false;
+    if (!this.currentPay || !this.currentPay.length) {
+      let text: any = this.defaultPaid.nativeElement.labels;
+      this.currentPay = text[0].textContent;
     }
 
     this.isLoading = true;
-
-    if (
-      !this.currentPay ||
-      !this.currentPay.length ||
-      this.currentPay.length < 4
-    ) {
-      this.currentPay = this.fiveElem?.nativeElement.textContent || '';
-    }
 
     this.socketSrv.sendData({
       event: 'SELECCION PAGOS',
       opt: this.currentPay.toUpperCase(),
       rut: this.userModel.rut,
     });
-
     return true;
   }
 
@@ -1275,4 +1292,9 @@ export class HomeComponent implements OnInit {
   ngOnDestroy() {
     console.log('destroying child...');
   }
+
+  // test(normalText: string): string {
+  //   let union = `<strong>${this.currentAbono}</strong>`;
+  //   return this.textStorage.getTextWithVariable(normalText, union);
+  // }
 }

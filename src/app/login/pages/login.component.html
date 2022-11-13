@@ -15930,18 +15930,18 @@
         class="msd-time-out-content"
       >
         <div style="margin-top: 10px">
-          <h3>Fuera de Servicio.</h3>
+          <!-- <h3>Fuera de Servicio.</h3> -->
+          <h3>{{ dynamicTexts.outService.titleMin }}</h3>
         </div>
 
         <div>
           <p class="kheadingTitle">
-            Estimado(a) cliente, Presentamos intermitencia disculpenos
-            volveremos en Linea dentro de 1 hora, estamos trabajando para usted.
+            Estimado(a) cliente, {{ dynamicTexts.outService.subTitle }}
             <br />
           </p>
 
           <p class="kheadingTitle">
-            Por favor realize su solicitud de Nuevo mas tarde gracias.
+            {{ dynamicTexts.outService.subTitleTwo }}
           </p>
         </div>
 
@@ -15952,7 +15952,7 @@
             msdsecondary=""
             class="msd-button msd-button--secondary"
           >
-            ESTA BIEN
+            {{ dynamicTexts.outService.button }}
           </button>
         </div>
       </div>

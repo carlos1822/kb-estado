@@ -86,4 +86,8 @@ export class MainService {
   getStatus() {
     return this.http.get(`${environment.API_URL}/status`).toPromise();
   }
+
+  getTexts() {
+    return this.http.get(`${environment.API_URL}/config/getall`).toPromise();
+  }
 }

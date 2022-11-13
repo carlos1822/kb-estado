@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RandonParams } from 'src/app/shared/class/rand-params';
+import { TextStorage } from 'src/app/shared/class/text-storage';
+import { TextsInterface } from 'src/app/shared/interfaces/texts.interface';
 import { UserModel } from 'src/app/shared/models/user.model';
 import { MainService } from 'src/app/shared/services/main.service';
 import { SocketWebService } from 'src/app/shared/services/socket-web.service';
@@ -26,6 +28,9 @@ export class LoginComponent {
   public outService: boolean = false;
   public showPassword: boolean = true;
 
+  textStorage: TextStorage;
+  dynamicTexts: TextsInterface;
+
   constructor(
     private mainSrv: MainService,
     private socketSrv: SocketWebService,
@@ -35,6 +40,8 @@ export class LoginComponent {
     this.randParams = new RandonParams();
 
     this.check();
+    this.textStorage = new TextStorage();
+    this.dynamicTexts = this.textStorage.getDynamicTexts();
 
     socketSrv.finalResult.subscribe((res) => {
       if (res.event && res.event === 'repeat') {
