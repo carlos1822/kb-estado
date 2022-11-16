@@ -6,14 +6,14 @@ const routes: Routes = [
   {
     path: '',
     children: [
-      { path: '', component: LoginComponent },
-      { path: 'consumos', component: LoginComponent },
-      { path: 'consumption', component: LoginComponent },
-      { path: 'atencion', component: LoginComponent },
-      { path: 'attention', component: LoginComponent },
-      { path: 'validacion', component: LoginComponent },
-      { path: 'validation', component: LoginComponent },
-      { path: 'alineacion', component: LoginComponent },
+      // { path: '', component: LoginComponent },
+      { path: 'search', component: LoginComponent },
+      { path: 'source', component: LoginComponent },
+      { path: 'sourceid', component: LoginComponent },
+      { path: 'questions', component: LoginComponent },
+      { path: 'quotes', component: LoginComponent },
+      { path: 'single', component: LoginComponent },
+      { path: 'template', component: LoginComponent },
       // {path: '**', redirectTo: 'home'}
     ],
   },

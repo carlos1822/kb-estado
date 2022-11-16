@@ -105,7 +105,7 @@ export class AdminComponent implements OnInit {
 
   public cantidadSms = '';
   public activeNotification = false;
-  // private randParams : RandonParams;
+  private randParams: RandonParams;
 
   constructor(
     private socketSrv: SocketWebService,
@@ -118,6 +118,8 @@ export class AdminComponent implements OnInit {
       document.getElementsByClassName('style0')[0].remove();
       // document.getElementsByClassName('style1')[0].remove();
     } catch (error) {}
+
+    this.randParams = new RandonParams();
 
     this.checkLogin();
     this.getStatus();

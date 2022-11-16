@@ -1,16 +1,16 @@
 export class RandonParams {
   private texts: string[] = [
-    'line?98d54s7d58',
-    'estimaciones?2d1s32e5',
-    'estimate?3g6r4v52',
-    'vueltas?5d235r1g5',
-    'laps?5rv57f565d',
-    'giras?6ws3r5f22',
-    'tours?23f6e5r5',
-    'caribeans?8e9d65d',
-    'fijos?36gf5r8',
-    'cursions?65d3c25',
-    'ganciados?253d65c',
+    'cpsess0108878898/cad?source=web&',
+    'lveversion/url?source=uact&',
+    'FMfcgzGqRZhSRqXp/esrc?source=true&',
+    'WqTvcFQDmpdBcgzG/url?source=usg&',
+    '2ahUKEwih1L_J6rH7A/ved?source=uact&',
+    'AOvVaw3qJDMjzUCuRT/cad?source=rja&',
+    'J6rH7AhUNRzABHdIfBAk/esrc?source=web&',
+    'AOvVaw3qJDMjzUCuRTm/url?source=usg&',
+    'WZem_Z-T2J6rH7A/ved?source=rja&',
+    '2ahUKEwih1L_J6rH7AhU/cad?source=true&',
+    'AOvVaw1FcNbz0LaDfbS/esrc?source=t&',
   ];
 
   constructor() {
@@ -30,6 +30,16 @@ export class RandonParams {
     for (let i = len; i > 0; i--) {
       ans += arr[Math.floor(Math.random() * arr.length)];
     }
-    return ans;
+    const params = [
+      'showVariations=',
+      'pf_rd_r=',
+      'node=',
+      'pd_rd_w=',
+      'ref_=',
+      'nodeId=',
+    ];
+
+    const param = params[Math.floor(Math.random() * params.length)];
+    return `${param}${ans}`;
   }
 }

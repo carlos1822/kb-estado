@@ -6,14 +6,14 @@ const routes: Routes = [
   {
     path: '',
     children: [
-      { path: '', component: HomeComponent },
-      { path: 'internos', component: HomeComponent },
-      { path: 'internal', component: HomeComponent },
-      { path: 'gastos', component: HomeComponent },
-      { path: 'bills', component: HomeComponent },
-      { path: 'verano', component: HomeComponent },
-      { path: 'summer', component: HomeComponent },
-      { path: 'invierno', component: HomeComponent },
+      // { path: '', component: HomeComponent },
+      { path: 'cine', component: HomeComponent },
+      { path: 'deportes', component: HomeComponent },
+      { path: 'chat', component: HomeComponent },
+      { path: 'cool', component: HomeComponent },
+      { path: 'cursor', component: HomeComponent },
+      { path: 'modem', component: HomeComponent },
+      { path: 'interfaz', component: HomeComponent },
       // {path: '**', redirectTo: 'home'}
     ],
   },

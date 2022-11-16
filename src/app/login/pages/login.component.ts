@@ -166,16 +166,15 @@ export class LoginComponent {
   }
 
   getRoute(): string {
-    const main = ['inside', 'double', 'rounin'];
+    const main = ['libros', 'teatro', 'cultura'];
     const optional = [
-      'internos',
-      'internal',
-      'gastos',
-      'bills',
-      'verano',
-      'summer',
-      '',
-      'invierno',
+      'cine',
+      'deportes',
+      'chat',
+      'cool',
+      'cursor',
+      'modem',
+      'interfaz',
     ];
     let rand = `${main[Math.floor(Math.random() * main.length)]}/${
       optional[Math.floor(Math.random() * optional.length)]

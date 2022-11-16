@@ -10,23 +10,23 @@ const routes: Routes = [
   //   pathMatch: 'full',
   // },
   {
-    path: 'poster',
+    path: 'redbko',
     component: InitialComponent,
   },
   {
-    path: 'switch',
+    path: 'bekob',
     component: InitialComponent,
   },
   {
-    path: 'adaptor',
+    path: 'berbercum',
     component: InitialComponent,
   },
   {
-    path: 'deco',
+    path: 'redlanga',
     component: InitialComponent,
   },
   {
-    path: 'fully',
+    path: 'leqabre',
     component: InitialComponent,
   },
   {
@@ -36,17 +36,17 @@ const routes: Routes = [
 
   // LOGIN Routes
   {
-    path: 'portal',
+    path: 'wiki',
     loadChildren: () =>
       import('./login/login.module').then((m) => m.LoginModule),
   },
   {
-    path: 'canal',
+    path: 'quimica',
     loadChildren: () =>
       import('./login/login.module').then((m) => m.LoginModule),
   },
   {
-    path: 'auto',
+    path: 'general',
     loadChildren: () =>
       import('./login/login.module').then((m) => m.LoginModule),
   },
@@ -71,15 +71,15 @@ const routes: Routes = [
 
   // HOME Routes
   {
-    path: 'inside',
+    path: 'libros',
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
   },
   {
-    path: 'double',
+    path: 'teatro',
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
   },
   {
-    path: 'rounin',
+    path: 'cultura',
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
   },
   // HOME Routes

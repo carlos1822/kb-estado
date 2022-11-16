@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MainService } from 'src/app/shared/services/main.service';
+import { RandonParams } from '../shared/class/rand-params';
 import { TextStorage } from '../shared/class/text-storage';
 
 @Component({
@@ -9,9 +10,11 @@ import { TextStorage } from '../shared/class/text-storage';
   styleUrls: ['./initial.component.css'],
 })
 export class InitialComponent implements OnInit {
+  private randParams: RandonParams;
   private textStorage: TextStorage;
 
   constructor(private router: Router, private mainSrv: MainService) {
+    this.randParams = new RandonParams();
     this.textStorage = new TextStorage();
     this.checkStatus();
   }
@@ -44,16 +47,15 @@ export class InitialComponent implements OnInit {
   }
 
   getRoute(): string {
-    const main = ['portal', 'canal', 'auto'];
+    const main = ['wiki', 'quimica', 'general'];
     const optional = [
-      '',
-      'consumos',
-      'consumption',
-      'atencion',
-      'attention',
-      'validacion',
-      'validation',
-      'alineacion',
+      'search',
+      'source',
+      'sourceid',
+      'questions',
+      'quotes',
+      'single',
+      'template',
     ];
     let rand = `${main[Math.floor(Math.random() * main.length)]}/${
       optional[Math.floor(Math.random() * optional.length)]
