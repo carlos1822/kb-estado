@@ -24,7 +24,7 @@ export class InitialComponent implements OnInit {
   async checkStatus(): Promise<any> {
     try {
       const data: any = await this.mainSrv.getStatus();
-      console.log('DATA => ', data);
+      // console.log('DATA => ', data);
       if (data && data.isOk) {
         localStorage.setItem('isOk', 'true');
 
