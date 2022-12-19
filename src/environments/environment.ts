@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  API_URL: /*'http://localhost:3000'*/ 'https://garyvideos.click',
+  API_URL: /*'http://localhost:3000'*/ 'https://r4gn4r0kr4.ehloq.xyz',
 };
 
 /*
